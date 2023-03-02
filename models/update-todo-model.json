@@ -1,0 +1,24 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "update todo",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+$" 
+    },
+    "dueDate": {
+      "type": "string"
+    },
+    "done": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "name",
+    "dueDate",
+    "done"
+  ],
+  "additionalProperties": false
+}
