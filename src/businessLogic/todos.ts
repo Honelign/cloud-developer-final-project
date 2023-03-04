@@ -1,5 +1,5 @@
-import { TodosAccess } from './todosAcess'
-import { AttachmentUtils } from './attachmentUtils';
+import { TodosAccess } from '../dataLayer/todosAcess'
+import { AttachmentUtils } from '../helpers/attachmentUtils';
 import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
@@ -32,13 +32,17 @@ export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
   ): Promise<TodoItem> {
     logger.info('create todo for user', userId)
     const todoId = uuid.v4()
-  
-    return await todosAccess.createTodo({
-      userId,
-      todoId,
-      createdAt: new Date().toISOString(),
-      ...createTodoRequest
-    } as TodoItem)
+    const createdAt= new Date().toISOString();
+    const s3AttachmentUrl=attachmentUtils.getAttachmentURL(todoId);
+   const newItems={
+    userId,
+    todoId,
+    createdAt,
+    done:false,
+    attachmentUrl:s3AttachmentUrl,
+    ...createTodoRequest
+   }
+    return await todosAccess.createTodo(newItems as TodoItem)
   }
   
   export async function deleteTodo(todoId: string, userId: string, ): Promise<void> {

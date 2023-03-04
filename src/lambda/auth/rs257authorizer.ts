@@ -74,4 +74,4 @@ function verifyToken(authHeader: string): JwtToken {
 
   return verify(token, cert, { algorithms: ['RS256'] }) as JwtToken
 }
- */
+  */

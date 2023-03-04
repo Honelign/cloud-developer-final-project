@@ -15,20 +15,21 @@ export class TodosAccess {
 
     constructor(
       private readonly docClient: DocumentClient = new XAWS.DynamoDB.DocumentClient(),
-      private readonly todosTable = process.env.TODOS_TABLE
+      private readonly todosTable = process.env.TODOS_TABLE,
+      //private readonly todosIndex = process.env.INDEX_NAME
     ) { }
   
   
     async createTodo(todo: TodoItem): Promise<TodoItem> {
         logger.info(`Creating todo item with id ${todo.todoId}`)
-        await this.docClient
+       const result= await this.docClient
         .put({
             TableName: this.todosTable,
             Item: todo
         })
         .promise()
-        logger.info(`Created todo item with id ${todo.todoId}`)
-        return todo
+        logger.info(`Created todo item with id ${result}`)
+        return todo as TodoItem;
     }
       
     async deleteTodo(todoId: string, userId: string): Promise<void> {
